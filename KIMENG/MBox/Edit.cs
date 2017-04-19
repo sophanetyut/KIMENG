@@ -8,13 +8,20 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace KIMENG
+namespace KIMENG.MBox
 {
-    public partial class Form1 : Form
+    public partial class Edit : Form
     {
-        public Form1()
+        public Edit()
         {
             InitializeComponent();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        
     }
 }
