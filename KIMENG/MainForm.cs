@@ -7,14 +7,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Data.OleDb;
 using System.Data.SqlClient;
 
 namespace KIMENG
 {
     public partial class MainForm : Form
     {
+        
         SqlConnection con = new SqlConnection(Properties.Settings.Default.ConnectionString);
-        SqlCommand com;
+        SqlCommand com,com2;
         #region Form
         Button[] btn;
         public MainForm()
@@ -286,7 +288,7 @@ namespace KIMENG
             {
                 return;
             }
-            com = new SqlCommand("SELECT Product, TName,  Price FROM tbl_Product LEFT JOIN tbl_Type ON tbl_Product.[Type]=tbl_Type.TID WHERE PCode=@Pcode", con);
+            com = new SqlCommand("SELECT Product, TName,  Price, PID FROM tbl_Product LEFT JOIN tbl_Type ON tbl_Product.[Type]=tbl_Type.TID WHERE PCode=@Pcode", con);
             com.Parameters.AddWithValue("@Pcode", tbSearch.Text);
             try
             {
@@ -294,7 +296,6 @@ namespace KIMENG
                 SqlDataReader reader = com.ExecuteReader();
                 if (reader.Read())
                 {
-
                     Product = reader.GetString(0);
                     Type = reader.GetString(1);
                     float.TryParse(reader.GetSqlMoney(2).ToString(), out Price);
@@ -315,20 +316,19 @@ namespace KIMENG
 
                         if (tabControl1.SelectedTab == tabControl1.TabPages[0])
                         {
-                            gSaleP1.Rows.Add(gSaleP1.RowCount + 1, Product, Qty, Type, Price, Dis, total);
+                            gSaleP1.Rows.Add(gSaleP1.RowCount + 1, Product, Qty, Type, Price, Dis, total, reader.GetInt32(3));
                         }
                         else if (tabControl1.SelectedTab == tabControl1.TabPages[1])
                         {
-                            gSaleP2.Rows.Add(gSaleP2.RowCount + 1, Product, Qty, Type, Price, Dis, total);
+                            gSaleP2.Rows.Add(gSaleP2.RowCount + 1, Product, Qty, Type, Price, Dis, total, reader.GetInt32(3));
                         }
                         else if (tabControl1.SelectedTab == tabControl1.TabPages[2])
                         {
-                            gSaleP3.Rows.Add(gSaleP3.RowCount + 1, Product, Qty, Type, Price, Dis, total);
+                            gSaleP3.Rows.Add(gSaleP3.RowCount + 1, Product, Qty, Type, Price, Dis, total, reader.GetInt32(3));
                         }
                     }
                 }
-
-
+                
                 reader.Close();
             }
             catch (Exception ex)
@@ -497,10 +497,30 @@ namespace KIMENG
         {
             label4.Text = "Date : " + DateTime.Now;
         }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            //com = new SqlCommand("INSERT INTO tbl_Reciept VALUES( @RecieptID,@luyKork,GETDATE())", con);
+            //com.Parameters.AddWithValue("@RecieptID", );
+            //com.Parameters.AddWithValue("@luyKork", );
+
+            //com2 = new SqlCommand("INSERT INTO tbl_RecieptDetail VALUES( @pID, @qty, @dis, @Reid)", con);
+            //com2.Parameters.AddWithValue("@pID", )
+            //try
+            //{
+
+            //}
+            //catch (Exception)
+            //{
+            //    throw;
+            //}
+        }
+
+        private void btnPrint_Click(object sender, EventArgs e)
+        {
+
+        }
         #endregion
-
-
-
         
         private float sumGrid(DataGridView dataGridView)
         {
@@ -520,7 +540,5 @@ namespace KIMENG
             LoadDataForCB();
             timer1.Start();
         }
-
-        
     }
 }
