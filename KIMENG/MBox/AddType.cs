@@ -6,15 +6,16 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data.SqlClient;
+using System.Data.OleDb;
+//using System.Data.SqlClient;
 using System.Windows.Forms;
 
 namespace KIMENG.MBox
 {
     public partial class AddType : Form
     {
-        SqlConnection con = new SqlConnection(Properties.Settings.Default.ConnectionString);
-        SqlCommand com;
+        OleDbConnection con = new OleDbConnection(Properties.Settings.Default.OledbCon);
+        OleDbCommand com;
         
         public AddType()
         {
@@ -34,11 +35,11 @@ namespace KIMENG.MBox
 
         private void LoadData()
         {
-            com = new SqlCommand("SELECT TID, TName FROM tbl_Type ", con);
+            com = new OleDbCommand("SELECT TID, TName FROM tbl_Type ", con);
             try
             {
                 con.Open();
-                SqlDataReader reader = com.ExecuteReader();
+                OleDbDataReader reader = com.ExecuteReader();
                 listBox1.Items.Clear();
 
                 while (reader.Read())
@@ -68,7 +69,7 @@ namespace KIMENG.MBox
         {
             if (textBox4.Text!="")
             {
-                com = new SqlCommand("INSERT INTO tbl_Type VALUES(@TYPE)",con);
+                com = new OleDbCommand("INSERT INTO tbl_Type(TName) VALUES(@TYPE)",con);
                 com.Parameters.AddWithValue("@TYPE", textBox4.Text);
 
                 try
@@ -94,20 +95,12 @@ namespace KIMENG.MBox
         {
             if (listBox1.SelectedItem!=null)
             {
-                com = new SqlCommand("DELETE FROM tbl_Type WHERE TID=@Tid", con);
+                com = new OleDbCommand("DELETE FROM tbl_Type WHERE TID=@Tid", con);
                 com.Parameters.AddWithValue("@Tid", (listBox1.SelectedItem as listboxItem).value);
                 try
                 {
                     con.Open();
                     com.ExecuteNonQuery();
-                }
-                catch (SqlException sq)
-                {
-                    if (sq.Number==547)
-                    {
-                        MBox.Message m = new MBox.Message("ទិន្ន័យត្រូវបានប្រើ មិនអាចលុបបានទេ");
-                        m.ShowDialog();
-                    }
                 }
                 catch (Exception ex)
                 {

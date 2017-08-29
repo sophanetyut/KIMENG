@@ -43,6 +43,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            this.tbSearch = new PHTextBox("dsfdf");
             this.panel1 = new System.Windows.Forms.Panel();
             this.button7 = new System.Windows.Forms.Button();
             this.btnReport = new System.Windows.Forms.Button();
@@ -71,7 +72,7 @@
             this.btnPrint = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.lbInvoiceNO = new System.Windows.Forms.Label();
             this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -147,6 +148,18 @@
             this.pAddProduct.SuspendLayout();
             this.pReport.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // tbSearch
+            // 
+            this.tbSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbSearch.ForeColor = System.Drawing.Color.Gray;
+            this.tbSearch.Location = new System.Drawing.Point(6, 106);
+            this.tbSearch.Name = "tbSearch";
+            this.tbSearch.PlaceHolderText = "Enter name or barcode number";
+            this.tbSearch.Size = new System.Drawing.Size(163, 24);
+            this.tbSearch.TabIndex = 2;
+            this.tbSearch.Text = "Enter barcode number";
+            this.tbSearch.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox1_KeyPress);
             // 
             // panel1
             // 
@@ -313,18 +326,6 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // tbSearch
-            // 
-            this.tbSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbSearch.ForeColor = System.Drawing.Color.Gray;
-            this.tbSearch.Location = new System.Drawing.Point(6, 106);
-            this.tbSearch.Name = "tbSearch";
-            this.tbSearch.PlaceHolderText = "Enter name or barcode number";
-            this.tbSearch.Size = new System.Drawing.Size(163, 24);
-            this.tbSearch.TabIndex = 2;
-            this.tbSearch.Text = "Enter barcode number";
-            this.tbSearch.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox1_KeyPress);
-            // 
             // pHome
             // 
             this.pHome.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -416,7 +417,7 @@
             this.pSale.Controls.Add(this.btnPrint);
             this.pSale.Controls.Add(this.label6);
             this.pSale.Controls.Add(this.label4);
-            this.pSale.Controls.Add(this.label2);
+            this.pSale.Controls.Add(this.lbInvoiceNO);
             this.pSale.Controls.Add(this.button3);
             this.pSale.Controls.Add(this.button2);
             this.pSale.Controls.Add(this.tbSearch);
@@ -461,7 +462,6 @@
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(161, 34);
             this.label10.TabIndex = 5;
-            this.label10.Text = "៛";
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label7
@@ -589,7 +589,7 @@
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Kh System", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.label6.Location = new System.Drawing.Point(728, 106);
+            this.label6.Location = new System.Drawing.Point(732, 106);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(57, 27);
             this.label6.TabIndex = 4;
@@ -600,22 +600,22 @@
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Kh System", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.label4.Location = new System.Drawing.Point(499, 106);
+            this.label4.Location = new System.Drawing.Point(534, 106);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(50, 27);
             this.label4.TabIndex = 4;
             this.label4.Text = "Date :";
             // 
-            // label2
+            // lbInvoiceNO
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Kh System", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.label2.Location = new System.Drawing.Point(293, 106);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(92, 27);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "Invoice NO :";
+            this.lbInvoiceNO.AutoSize = true;
+            this.lbInvoiceNO.Font = new System.Drawing.Font("Kh System", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbInvoiceNO.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.lbInvoiceNO.Location = new System.Drawing.Point(293, 106);
+            this.lbInvoiceNO.Name = "lbInvoiceNO";
+            this.lbInvoiceNO.Size = new System.Drawing.Size(92, 27);
+            this.lbInvoiceNO.TabIndex = 4;
+            this.lbInvoiceNO.Text = "Invoice NO :";
             // 
             // button3
             // 
@@ -1119,11 +1119,11 @@
             this.tbSalePrice.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbSalePrice.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.tbSalePrice.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tbSalePrice.Font = new System.Drawing.Font("Kh System", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbSalePrice.Location = new System.Drawing.Point(369, 398);
             this.tbSalePrice.Name = "tbSalePrice";
-            this.tbSalePrice.Size = new System.Drawing.Size(133, 30);
+            this.tbSalePrice.Size = new System.Drawing.Size(133, 37);
             this.tbSalePrice.TabIndex = 0;
             this.tbSalePrice.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbCodeNum_KeyPress);
             // 
@@ -1198,11 +1198,11 @@
             this.tbUnitPrice.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbUnitPrice.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.tbUnitPrice.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tbUnitPrice.Font = new System.Drawing.Font("Kh System", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbUnitPrice.Location = new System.Drawing.Point(369, 354);
             this.tbUnitPrice.Name = "tbUnitPrice";
-            this.tbUnitPrice.Size = new System.Drawing.Size(133, 30);
+            this.tbUnitPrice.Size = new System.Drawing.Size(133, 37);
             this.tbUnitPrice.TabIndex = 0;
             this.tbUnitPrice.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbCodeNum_KeyPress);
             // 
@@ -1225,12 +1225,12 @@
             this.tbCodeNum.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbCodeNum.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.tbCodeNum.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tbCodeNum.Font = new System.Drawing.Font("Kh System", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbCodeNum.Location = new System.Drawing.Point(369, 175);
             this.tbCodeNum.MaxLength = 20;
             this.tbCodeNum.Name = "tbCodeNum";
-            this.tbCodeNum.Size = new System.Drawing.Size(133, 30);
+            this.tbCodeNum.Size = new System.Drawing.Size(133, 37);
             this.tbCodeNum.TabIndex = 0;
             this.tbCodeNum.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbCodeNum_KeyPress);
             // 
@@ -1267,12 +1267,12 @@
             this.tbProduct.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbProduct.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.tbProduct.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tbProduct.Font = new System.Drawing.Font("Kh System", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbProduct.Location = new System.Drawing.Point(369, 219);
             this.tbProduct.MaxLength = 50;
             this.tbProduct.Name = "tbProduct";
-            this.tbProduct.Size = new System.Drawing.Size(133, 30);
+            this.tbProduct.Size = new System.Drawing.Size(133, 37);
             this.tbProduct.TabIndex = 0;
             // 
             // label18
@@ -1294,11 +1294,11 @@
             this.tbQty.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbQty.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.tbQty.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tbQty.Font = new System.Drawing.Font("Kh System", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbQty.Location = new System.Drawing.Point(369, 265);
+            this.tbQty.Location = new System.Drawing.Point(369, 263);
             this.tbQty.Name = "tbQty";
-            this.tbQty.Size = new System.Drawing.Size(133, 30);
+            this.tbQty.Size = new System.Drawing.Size(133, 37);
             this.tbQty.TabIndex = 0;
             this.tbQty.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbCodeNum_KeyPress);
             // 
@@ -1413,7 +1413,7 @@
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button2;
         private PHTextBox tbSearch;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lbInvoiceNO;
         private System.Windows.Forms.Button btnPrint;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Label label4;

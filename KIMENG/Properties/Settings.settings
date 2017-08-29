@@ -9,5 +9,19 @@
 &lt;/SerializableConnectionString&gt;</DesignTimeValue>
       <Value Profile="(Default)">Data Source=(local);Initial Catalog=KIMENG;Integrated Security=True</Value>
     </Setting>
+    <Setting Name="OledbCon" Type="(Connection string)" Scope="Application">
+      <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;ConnectionString&gt;Provider=Microsoft.Jet.OLEDB.4.0;Data Source = @\\KIMENG.mdb ; Jet OLEDB:Database Password=12345;&lt;/ConnectionString&gt;
+&lt;/SerializableConnectionString&gt;</DesignTimeValue>
+      <Value Profile="(Default)">Provider=Microsoft.Jet.OLEDB.4.0;Data Source = @\\KIMENG.mdb ; Jet OLEDB:Database Password=12345;</Value>
+    </Setting>
+    <Setting Name="Setting" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Provider=Microsoft.ACE.OLEDB.4.0;Data Source=C:\myFolder\myAccessFile.accdb;​​​ Jet OLEDB:Database Password=MyDbPassword;
+</Value>
+    </Setting>
+    <Setting Name="Setting1" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Provider=Microsoft.Jet.OLEDB.4.0;Data Source = \\KIMENG.mdb ;Persist Security Info = False;</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

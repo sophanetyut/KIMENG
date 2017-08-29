@@ -8,15 +8,20 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.OleDb;
-using System.Data.SqlClient;
+//using System.Data.SqlClient;
 
 namespace KIMENG
 {
     public partial class MainForm : Form
     {
+        //string s = Application.ExecutablePath.ToString().Substring(0,Application.ExecutablePath.ToString().Length-10);
+
+        //OleDbConnection con = new OleDbConnection($"Provider=Microsoft.Jet.OLEDB.4.0;Data Source = {Application.ExecutablePath.ToString().Substring(0,Application.ExecutablePath.ToString().Length-10)} KIMENG.mdb ; Jet OLEDB:Database Password=12345;");
+        //OleDbConnection con = new OleDbConnection(@"Provider=Microsoft.Jet.OLEDB.4.0;Data Source=D:\code\AccessDB\KIMENG.mdb;Jet OLEDB:Database Password=12345;");
+        OleDbConnection con = new OleDbConnection(@"Provider=Microsoft.Jet.OLEDB.4.0;Data Source="+ Application.ExecutablePath.ToString().Substring(0, Application.ExecutablePath.ToString().Length - 10) +"KIMENG.mdb"+ ";Jet OLEDB:Database Password=12345;");
+        OleDbCommand com, com2;
+        //string a= @"OleDbConnection con = new OleDbConnection(@"Provider=Microsoft.Jet.OLEDB.4.0;Data Source = D:\code\AccessDB\KIMENG.mdb;Persist Security Info = False;");"
         
-        SqlConnection con = new SqlConnection(Properties.Settings.Default.ConnectionString);
-        SqlCommand com,com2;
         #region Form
         Button[] btn;
         public MainForm()
@@ -34,6 +39,7 @@ namespace KIMENG
 
             tbSearch.KeyDown += new KeyEventHandler(tbSearch_KeyDown);
             btn =new Button[]{btnHome, btnSale, btnProduct, btnAddProduct, btnReport};
+            
         }
         
         void ChangeColor(Button buttonObj)
@@ -112,14 +118,20 @@ namespace KIMENG
                 tbProduct.Focus();
                 return;
             }
+            if (comboBox1.SelectedItem == null)
+            {
+                comboBox1.DroppedDown = true;
+                return;
+            }
 
-            com = new SqlCommand("INSERT INTO tbl_Product VALUES(@Pcode,@Product,@Qty,@Price,@SalePrice,@type)", con);
+            com = new OleDbCommand("INSERT INTO tbl_Product(PCode, Product, Qty, Price, SalePrice, Type) VALUES(@Pcode,@Product,@Qty,@Price,@SalePrice,@type)", con);
             com.Parameters.AddWithValue("@Pcode", tbCodeNum.Text);
             com.Parameters.AddWithValue("@Product", tbProduct.Text);
             com.Parameters.AddWithValue("@Qty", tbQty.Text);
             com.Parameters.AddWithValue("@Price", tbUnitPrice.Text);
             com.Parameters.AddWithValue("@SalePrice", tbSalePrice.Text);
             com.Parameters.AddWithValue("@type", (comboBox1.SelectedItem as comboboxItem).value.ToString());
+            
             try
             {
                 con.Open();
@@ -145,11 +157,11 @@ namespace KIMENG
 
         public void LoadDataForCB()
         {
-            com = new SqlCommand("SELECT TID, TName FROM tbl_Type ", con);
+            com = new OleDbCommand("SELECT TID, TName FROM tbl_Type ", con);
             try
             {
                 con.Open();
-                SqlDataReader reader = com.ExecuteReader();
+                OleDbDataReader reader = com.ExecuteReader();
                 comboBox1.Items.Clear();
 
                 while (reader.Read())
@@ -185,6 +197,11 @@ namespace KIMENG
 
         private void gProList_DoubleClick(object sender, EventArgs e)
         {
+            DialogResult ds= MessageBox.Show("Are you sure to delete the data?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (ds!=DialogResult.Yes)
+            {
+                return;
+            }
             string Pcode = "";
             foreach (DataGridViewRow row in gProList.SelectedRows)
             {
@@ -192,7 +209,7 @@ namespace KIMENG
             }
 
 
-            com = new SqlCommand("DELETE FROM tbl_Product WHERE PCode = @Pcode", con);
+            com = new OleDbCommand("DELETE FROM tbl_Product WHERE PCode = @Pcode", con);
             com.Parameters.AddWithValue("@Pcode", Pcode);
             try
             {
@@ -212,14 +229,12 @@ namespace KIMENG
 
         private void tbProList_TextChanged(object sender, EventArgs e)
         {
-            com = new SqlCommand(@"SELECT TOP 50 Product as 'ឈ្មោះទំនិញ', Qty as 'ចំនួន', tbl_Type.TName as 'ប្រភេទ', Price as 'តម្លៃទិញចូល', 
-                                    SalePrice as 'តម្លៃលក់ចេញ', PCode as 'Code' FROM tbl_Product left join tbl_Type on tbl_Product.[Type]
-                                = tbl_Type.TID WHERE PCode LIKE '%'+@Pid+'%'", con);
+            com = new OleDbCommand(@"SELECT * FROM PList WHERE PCode LIKE '%'+@Pid+'%'", con);
             com.Parameters.AddWithValue("@Pid", tbProList.Text);
             try
             {
                 con.Open();
-                SqlDataAdapter adt = new SqlDataAdapter(com);
+                OleDbDataAdapter adt = new OleDbDataAdapter(com);
                 DataTable dt = new DataTable();
                 adt.Fill(dt);
                 gProList.DataSource = dt;
@@ -237,15 +252,16 @@ namespace KIMENG
 
         private void LoadProductList()
         {
-            com = new SqlCommand("SELECT TOP 50 Product as 'ឈ្មោះទំនិញ', Qty as 'ចំនួន', tbl_Type.TName as 'ប្រភេទ', Price as 'តម្លៃទិញចូល', SalePrice as 'តម្លៃលក់ចេញ', PCode as 'Code' FROM tbl_Product left join tbl_Type on tbl_Product.[Type] = tbl_Type.TID", con);
+            com = new OleDbCommand("select * from PList", con);
             try
             {
                 con.Open();
-                SqlDataAdapter adt = new SqlDataAdapter(com);
+                OleDbDataAdapter adt = new OleDbDataAdapter(com);
                 DataTable dt = new DataTable();
                 adt.Fill(dt);
+                //OleDbDataReader reader = com.ExecuteReader();
                 gProList.DataSource = dt;
-
+                
             }
             catch (Exception)
             {
@@ -288,17 +304,17 @@ namespace KIMENG
             {
                 return;
             }
-            com = new SqlCommand("SELECT Product, TName,  Price, PID FROM tbl_Product LEFT JOIN tbl_Type ON tbl_Product.[Type]=tbl_Type.TID WHERE PCode=@Pcode", con);
+            com = new OleDbCommand("SELECT Product, TName,  Price, PID FROM tbl_Product LEFT JOIN tbl_Type ON tbl_Product.[Type]=tbl_Type.TID WHERE PCode=@Pcode", con);
             com.Parameters.AddWithValue("@Pcode", tbSearch.Text);
             try
             {
                 con.Open();
-                SqlDataReader reader = com.ExecuteReader();
+                OleDbDataReader reader = com.ExecuteReader();
                 if (reader.Read())
                 {
                     Product = reader.GetString(0);
                     Type = reader.GetString(1);
-                    float.TryParse(reader.GetSqlMoney(2).ToString(), out Price);
+                    float.TryParse(reader.GetValue(2).ToString(), out Price);
 
                     MBox.AddNewItem a = new MBox.AddNewItem(Product);
                     a.ShowDialog();
@@ -500,25 +516,78 @@ namespace KIMENG
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            //com = new SqlCommand("INSERT INTO tbl_Reciept VALUES( @RecieptID,@luyKork,GETDATE())", con);
-            //com.Parameters.AddWithValue("@RecieptID", );
-            //com.Parameters.AddWithValue("@luyKork", );
+            com = new OleDbCommand("INSERT INTO tbl_Reciept(ReceiptID, LuyKork, RDate) VALUES( @RecieptID,@luyKork,@Date)", con);
+            com2 = new OleDbCommand("INSERT INTO tbl_RecieptDetail(PID,Qty,Discount,ReID) VALUES( @pID, @qty, @dis, @Reid)", con);
 
-            //com2 = new SqlCommand("INSERT INTO tbl_RecieptDetail VALUES( @pID, @qty, @dis, @Reid)", con);
-            //com2.Parameters.AddWithValue("@pID", )
-            //try
-            //{
+            //gSaleP1[7,gSaleP1.Rows.Count-1].Value.ToString()
 
-            //}
-            //catch (Exception)
-            //{
-            //    throw;
-            //}
+            switch (tabControl1.SelectedTab.Name)
+            {
+                case "tabPage1":
+                    com.Parameters.AddWithValue("@RecieptID", lbInvoiceNO.Text.Substring(15));
+                    com.Parameters.AddWithValue("@luyKork", luyKok[0]);
+                    com.Parameters.AddWithValue("@Date", DateTime.Now);
+
+                    
+                    com2.Parameters.AddWithValue("@pID", gSaleP1[6, gSaleP1.Rows.Count-1].Value);
+                    com2.Parameters.AddWithValue("@qty", gSaleP1[1, gSaleP1.Rows.Count-1].Value);
+                    com2.Parameters.AddWithValue("@dis", gSaleP1[3, gSaleP1.Rows.Count-1].Value);
+                 //   com2.Parameters.AddWithValue("@Reid", );
+                    break;
+                case "tabPage2":
+                    com.Parameters.AddWithValue("@RecieptID", lbInvoiceNO.Text.Substring(15));
+                    com.Parameters.AddWithValue("@luyKork", luyKok[1]);
+                    com.Parameters.AddWithValue("@Date", DateTime.Now);
+
+                    com2.Parameters.AddWithValue("@pID", gSaleP2[6, gSaleP1.Rows.Count - 1].Value);
+                    com2.Parameters.AddWithValue("@qty", gSaleP2[1, gSaleP1.Rows.Count - 1].Value);
+                    com2.Parameters.AddWithValue("@dis", gSaleP2[3, gSaleP1.Rows.Count - 1].Value);
+                  //  com2.Parameters.AddWithValue("@Reid", );
+                    break;
+                case "tabPage3":
+                    com.Parameters.AddWithValue("@RecieptID", lbInvoiceNO.Text.Substring(15));
+                    com.Parameters.AddWithValue("@luyKork", luyKok[2]);
+                    com.Parameters.AddWithValue("@Date", DateTime.Now);
+
+                    com2.Parameters.AddWithValue("@pID", gSaleP3[6, gSaleP1.Rows.Count - 1].Value);
+                    com2.Parameters.AddWithValue("@qty", gSaleP3[1, gSaleP1.Rows.Count - 1].Value);
+                    com2.Parameters.AddWithValue("@dis", gSaleP3[3, gSaleP1.Rows.Count - 1].Value);
+                 //   com2.Parameters.AddWithValue("@Reid", );
+                    break;
+                default:
+                    break;
+            }
+            MessageBox.Show((gSaleP1[6, gSaleP1.Rows.Count - 1].Value).ToString());
         }
 
         private void btnPrint_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private string GetInvoiceID()
+        {
+            com = new OleDbCommand("SELECT TOP 1 ReceiptID from tbl_Receipt ORDER BY ReID DESC", con);
+            string id = "";
+
+            try
+            {
+                con.Open();
+                OleDbDataReader reader = com.ExecuteReader();
+                while (reader.Read())
+                {
+                    id = reader["ReceiptID"].ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                con.Close();
+            }
+            return id;
         }
         #endregion
         
@@ -539,6 +608,29 @@ namespace KIMENG
             LoadProductList();
             LoadDataForCB();
             timer1.Start();
+            lbInvoiceNO.Text = "Invoice NO : " + GenerateInvoiceID(GetInvoiceID());
         }
+
+        private string GenerateInvoiceID(string es)
+        {
+
+            int indx = es.Length - 1;
+            string num = "";
+            for (int i = 0; i < 13; i++)
+            {
+                //num+=es.Substring()
+                if (indx >= 0)
+                {
+                    num = es.Substring(indx, 1) + num;
+                }
+                else
+                {
+                    num = "0" + num;
+                }
+                indx--;
+            }
+            return "KM" + num;
+        }
+
     }
 }

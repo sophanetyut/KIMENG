@@ -32,5 +32,42 @@ namespace KIMENG.Properties {
                 return ((string)(this["ConnectionString"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Provider=Microsoft.Jet.OLEDB.4.0;Data Source = @\\\\KIMENG.mdb ; Jet OLEDB:Database" +
+            " Password=12345;")]
+        public string OledbCon {
+            get {
+                return ((string)(this["OledbCon"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Provider=Microsoft.ACE.OLEDB.4.0;Data Source=C:\\myFolder\\myAccessFile.accdb;​​​ J" +
+            "et OLEDB:Database Password=MyDbPassword;\r\n")]
+        public string Setting {
+            get {
+                return ((string)(this["Setting"]));
+            }
+            set {
+                this["Setting"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Provider=Microsoft.Jet.OLEDB.4.0;Data Source = \\\\KIMENG.mdb ;Persist Security Inf" +
+            "o = False;")]
+        public string Setting1 {
+            get {
+                return ((string)(this["Setting1"]));
+            }
+            set {
+                this["Setting1"] = value;
+            }
+        }
     }
 }
